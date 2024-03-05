@@ -1,0 +1,137 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .font-montserrat {
+    font-family: Montserrat !important;
+  }
+
+  .golden-text {
+    color: #f6d69a !important;
+  }
+
+  .text-1 {
+    font-family: Montserrat;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+
+  .font-bebas {
+    font-family: "Bebas Neue", sans-serif;
+  }
+
+  .btn-primary {
+    border-radius: 0.3125rem;
+    background: linear-gradient(180deg, #ca7728 0%, #c36d1e 100%);
+    padding: 0.97rem 0.5rem;
+    min-width: 14.375rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .btn-primary:disabled,
+  .btn-primary:disabled:hover {
+    background: grey;
+    cursor: not-allowed;
+  }
+
+  .btn-secondary {
+    border-radius: 0.3125rem;
+    background: #4e4b61;
+    padding: 0.97rem 0.5rem;
+    min-width: 14.375rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .btn-primary p {
+    color: #fff;
+    text-align: center;
+    font-family: Cormorant SC;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 0.1rem;
+
+    text-transform: uppercase;
+  }
+  .btn-secondary p {
+    color: #fff;
+    text-align: center;
+    font-family: Cormorant SC;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 0.1rem;
+
+    text-transform: uppercase;
+  }
+
+  /* .btn-primary p::first-letter {
+    font-size: 1.75rem !important;
+  } */
+
+  .btn-primary:hover {
+    background: linear-gradient(180deg, #df7008 0%, #df7008 100%);
+  }
+
+  .gradient-line {
+    height: 0.25rem;
+    width: 100%;
+    border: none;
+    background: linear-gradient(
+      90deg,
+      #84604c 0%,
+      #c1a16f 18.23%,
+      #e6dcbf 45.83%,
+      #cead7d 81.25%,
+      #ad9176 98.96%
+    );
+  }
+
+  @media only screen and (min-width: 800px) and (max-width: 1200px) {
+  }
+
+  @media only screen and (min-width: 600px) and (max-width: 799px) {
+    .btn-primary {
+      min-width: 100%;
+    }
+  }
+
+  @media only screen and (max-width: 599px) {
+    .btn-primary {
+      min-width: 100%;
+    }
+
+    .btn-primary p,
+    .btn-secondary p {
+      font-size: 1rem;
+    }
+  }
+
+  @media only screen and (max-width: 400px) {
+  }
+}
+
+@layer utilities {
+  @variants {
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .no-scrollbar {
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+    }
+  }
+}

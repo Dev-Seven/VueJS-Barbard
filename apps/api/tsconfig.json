@@ -1,0 +1,12 @@
+{
+  "extends": "tsconfig/base.json",
+  "compilerOptions": {
+    "moduleResolution": "NodeNext",
+    "module": "NodeNext",
+    "outDir": "lib",
+    "sourceMap": true
+  },
+  "lib": ["esnext", "DOM"],
+  "include": ["src/**/*.ts", ".env*"],
+  "exclude": ["node_modules", "../../node_modules"]
+}

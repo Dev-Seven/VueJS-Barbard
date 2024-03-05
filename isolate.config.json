@@ -1,0 +1,8 @@
+{
+  "targetPackagePath": "./apps/api",
+  "buildDirName": "lib",
+  "excludeLockfile": false,
+  "tsconfigPath": "./apps/api/tsconfig.json",
+  "logLevel": "debug",
+  "workspacePackages": ["packages/*"]
+}

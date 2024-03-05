@@ -1,0 +1,4 @@
+{
+  "**/*.((?(c){j,t}s?(x))|vue)": ["prettier --write"],
+  "*.json": ["prettier --write"]
+}

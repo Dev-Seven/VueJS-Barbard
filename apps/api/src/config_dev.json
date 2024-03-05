@@ -1,0 +1,35 @@
+{
+  "graphql": "https://api.loyalty.connecta.vn/graphql",
+  "graphql_username": "tomgoedhart@me.com",
+  "graphql_password": "71bs9v77",
+  "sendinblue_api_key": "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",
+  "project_id": "barbaard-dev",
+  "max_function_instances": 1000,
+  "service_account": {
+    "type": "service_account",
+    "project_id": "barbaard-dev",
+    "private_key_id": "2baf162b41384494fc328f213ac7f3253a6adb84",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDD86fzPleW5WUo\n9qGV8kS5ixKGio6V7SkreUW87F26AzYfEtwcN1rukojmuPe8dPxICKJYBzTBrhgJ\npaMG333nvzHJkAHS3Tz4IIZYfh+yNHLaDvODMfcv8sqljHy/zdLlgrqG3Wm8bY1A\nUi8h4f0BNPa7RuSDoiLXLmwUlNNRdmsq4ZCSY/pQFd1p+c5+0O/jZhprGgski9Id\nrqJfa7Z/rPfXYeVMKJ6H5g5l+p9+/64zH2U8EoS8HoLaaUjB4AbHt61c35HIelJJ\nfS7axCSR4zG/gYuig2wlSkXFzsBnCUwFW1a3Xe6JjXdGoY7UZKZDwyYjdNQHDM+M\nbT4xWy4vAgMBAAECggEAFRdOxoG5T8aVItmY/ti6yPXNIqobOsvyGHnPJcyTMghS\ndPnEs0zJ/s/K6HqUP7afyOkVAECWTxp7/93SNFUt6hnMNBPJ/nZNr69ghnnc04ON\nsSbW0xI3tvN9GGCMtOBkiMuPZCDE1sE76OZvqEf4wX5/6BxzUC/NbDfU7koujJ/v\nxzi4OstAz5RCHdczeI2OxWnmamnbYMhy87Ki2Lqu2Nt5e14VLG/M9Bhouwu2jJsS\n4SdmhItK6TXvLHcrwgYu6OJCCt+SdK5z1nH8s+7swRjGafR5sPcF1wtc+EQvKsWq\nthu0cLVKZHMcT6wYiI/FsFF+OYl3MbKDMmOABTDFUQKBgQD9gmrSm+6ypFcstzdk\nsrTti4Oh3nB+l/ByzADuchXhDh66Y8jcRbuU3iFcycFPJYJagAwZfWb9Wq0+9no3\nNtKx9GaEN6QbNQB7YamB6QwmYnqzkd9C+pNQWIqNCWeqE/KreBpN9MLY9gc0xNg4\n/fTFpFOL8U4PEwl6bZAuMLCTvQKBgQDF4HrTnC8IthXflVDF/I6294rxK8ESzfAW\nE9pSU3n+1SCzORybxNkix9c+uzNgc499yhLx458jDYGCg9JRTNnDecensGNDUsWG\nTlIAMyEkAAdSdPNfLVHGqFdYy3VC7ajmh6ZppLYeJoXeiCizqdwpfiZrRRtY6FZ6\n50/ySobyWwKBgAd7J8fbTin7a48oQPw5wdkYuuO1+r/hn/jjSEvBFiA0GHgLpcvK\nSwTToUxpr8i0JKqjCLhf2QA1AtPO1kB237Tcr4HLWo5q+/6oHSZ2SCOB2HkgHuSN\nHHfMhRowYtzEBe9FdhFC3dUlPYUzIeZcqDKE7Oo+Tr1nJGp2fUC/sxZJAoGBALFn\nJDd7mx9wQAQH1jbqyvh2znaSB7NYNptUiTOt633wjjSgS2nL/fAUwoFXTCR49niM\nJpf+vrmqbiYZEQIaqFF8aOeKWDQPjU9wAEx1iozACdB/UYJPGzXDzyuonSS39elY\nTHYCWdSGLRbpc7Q/4UbB9qfNeUsoYgAmSaKr9nhpAoGAB5KYcigtLUpQJQdqQRzs\n/V+vSPNu5pTYk+9WammnZknMV/K7ocKJFORQeDODkgowdNFkGa083X8m8CrpnR/q\njsV6DVx/VQE+v2JagoZyFPWOuqys5ocq3nVh8M2fwOIPlLGrXqzWPVBrdfCIHzox\nKkyzbG3pN0uQrnPZtnNws3E=\n-----END PRIVATE KEY-----\n",
+    "client_email": "firebase-adminsdk-59icg@barbaard-dev.iam.gserviceaccount.com",
+    "client_id": "109762763271752815759",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-59icg%40barbaard-dev.iam.gserviceaccount.com"
+  },
+  "trengo": {
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYmFlZTY1YWE1MzM2MjJiY2IwYTI4YzNmNWM3Yjg3NTI3ZjhmYzFlNGQwYTE5OGIxMGYxZTZiMjc5ZWY0MTJmZTljOGZlOGUyNGIyNDVhM2QiLCJpYXQiOjE2NTkyNzQ2MzIuMjkwNzA0LCJuYmYiOjE2NTkyNzQ2MzIuMjkwNzA2LCJleHAiOjQ3ODM0MTIyMzIuMjg1NTg4LCJzdWIiOiI0OTk5OTQiLCJzY29wZXMiOltdfQ.kJSryeIG9xIirJ8RiHfK5W2ZkKnjJ3VZxu5sU8ijp8HKdE6bE-7uBjfaRqcdPw9YvgW5x5jsG4jYNgaHOP-RIQ"
+  },
+  "realtimedb": {
+    "url": "https://barbaard-dev-rtdb-singapore.asia-southeast1.firebasedatabase.app"
+  },
+  "otp": {
+    "api_key": "172ACCD5C09EC2EB7230DBD54C0B2A",
+    "secret_key": "9B20390A30DBB216738E4D389D3957"
+  },
+  "twilio": {
+    "account_sid": "AC84d401d0a118dca161f8458a5998c8ae",
+    "auth_token": "6517875360b1950f7f9f65625b9db1f0",
+    "verification_service_id": "VAfd767f9be696bbf21b11248ce0b070ff"
+  }
+}

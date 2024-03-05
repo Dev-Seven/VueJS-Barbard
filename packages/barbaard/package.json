@@ -1,0 +1,24 @@
+{
+  "name": "@barbaard/types",
+  "version": "0.0.4",
+  "description": "Business Entities",
+  "private": true,
+  "type": "module",
+  "files": [
+    "lib"
+  ],
+  "engines": {
+    "node": "18"
+  },
+  "scripts": {
+    "lint": "eslint \"**/*.ts*\"",
+    "build": "npx tsc -p tsconfig.json"
+  },
+  "types": "./lib/src/index.d.ts",
+  "main": "./lib/src/index.js",
+  "dependencies": {
+    "typescript": "^5.2.2",
+    "firebase-admin": "^11.5.0",
+    "tsconfig": "workspace:*"
+  }
+}

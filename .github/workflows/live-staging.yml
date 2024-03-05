@@ -1,0 +1,168 @@
+name: Live Staging
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - staging
+    paths:
+      - "apps/**"
+      - "!apps/**/CHANGELOG.md"
+      - "!apps/api/**"
+
+concurrency: ${{ github.workflow }}
+
+jobs:
+  build:
+    if: github.event.pull_request.merged
+    runs-on: ubuntu-latest
+    environment: staging
+    env:
+      VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
+      VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
+      VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
+      VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
+      VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
+      VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
+      VITE_FIREBASE_DATABASE_URL: ${{ secrets.VITE_FIREBASE_DATABASE_URL }}
+    outputs:
+      packages: ${{ steps.filter.outputs.changes }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: dorny/paths-filter@v2.11.1
+        id: filter
+        with:
+          filters: |
+            pos:
+              - 'apps/pos/**'
+            cheque:
+              - 'apps/cheque/**'
+            web:
+              - 'apps/web/**'
+
+      - uses: ./.github/actions/setup
+
+      - name: Build POS
+        id: build-pos
+        if: steps.filter.outputs.pos == 'true'
+        env:
+          VITE_APP_CHECK_KEY: ${{ secrets.VITE_FIREBASE_POS_APPCHECK_TOKEN }}
+          VITE_ALGOLIA_APP_ID: ${{ secrets.POS_ALGOLIA_APP_ID }}
+          VITE_ALGOLIA_APP_KEY: ${{ secrets.POS_ALGOLIA_APP_KEY }}
+          VITE_API_URL: ${{ secrets.POS_API_URL }}
+          VITE_CREATE_GUEST_FN: ${{ secrets.POS_CREATE_GUEST_FN }}
+          VITE_MARKETMAN_PRODUCTS_API: ${{ secrets.POS_MARKETMAN_PRODUCTS_API }}
+          VITE_NHANH_PRODUCTS_API: ${{ secrets.POS_NHANH_PRODUCTS_API }}
+          VITE_SALES_PUSH_MARKETMAN: ${{ secrets.POS_SALES_PUSH_MARKETMAN }}
+          VITE_SALES_PUSH_NHANH: ${{ secrets.POS_SALES_PUSH_NHANH }}
+          VITE_COMMIT_SHA: ${{ github.sha }}
+          VITE_FIREBASE_MEASUREMENT_ID: ${{ secrets.POS_FIREBASE_MEASUREMENT_ID }}
+        run: |
+          pnpm run build --filter pos
+
+      - name: Build Web
+        id: build-web
+        if: steps.filter.outputs.web == 'true'
+        env:
+          VITE_FIREBASE_APPCHECK_TOKEN: ${{ secrets.VITE_FIREBASE_WEB_APPCHECK_TOKEN }}
+          VITE_FIREBASE_MEASUREMENT_ID: ${{ secrets.WEB_FIREBASE_MEASUREMENT_ID }}
+        run: |
+          echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_BARBAARD_DEV }}" > apps/web/service-account.json
+          pnpm run build --filter web
+
+      - name: Build Cheque
+        id: build-cheque
+        if: steps.filter.outputs.cheque == 'true'
+        env:
+          VITE_FIREBASE_APPCHECK_TOKEN: ${{ secrets.VITE_FIREBASE_CHEQUE_APPCHECK_TOKEN }}
+          VITE_FIREBASE_MEASUREMENT_ID: ${{ secrets.CHEQUE_FIREBASE_MEASUREMENT_ID }}
+        run: |
+          pnpm run build --filter cheque
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        if: steps.build-cheque.outcome == 'success' || steps.build-pos.outcome == 'success' || steps.build-web.outcome == 'success'
+        with:
+          name: build-artifact
+          path: |
+            apps/pos/dist
+            apps/cheque/dist
+            apps/web/.output
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package: ${{ fromJson(needs.build.outputs.packages) }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: build-artifact
+          path: apps/
+
+      - id: firebase_deploy
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_BARBAARD_DEV }}"
+          projectId: barbaard-dev
+          channelId: live
+          target: ${{ matrix.package }}
+
+      - name: Post to a Slack channel
+        uses: slackapi/slack-github-action@v1.24.0
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        with:
+          channel-id: "C05KWP6E7EU"
+          payload: |
+            {
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "💡 🚧 ${{ matrix.package }}: *<${{ github.event.pull_request.html_url }}|${{ github.event.pull_request.title }}>*"
+                  }
+                },
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": ${{ github.event.pull_request.body != 0 && toJson(github.event.pull_request.body) || toJson('_No description provided_') }}
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Author:* ${{ github.event.pull_request.user.login }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*PR:* ${{ github.event.pull_request.base.ref }} <- ${{ github.event.pull_request.head.ref }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Status:* ${{ github.event.pull_request.state }}"
+                    }
+                  ]
+                },
+                {
+                  "type": "divider"
+                },
+                {
+                  "type": "context",
+                  "elements": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "⏳ - preivew channel 💡 - live channel 🚧 - STAGING 🚀 - PROD"
+                    }
+                  ]
+                }
+              ]
+            }

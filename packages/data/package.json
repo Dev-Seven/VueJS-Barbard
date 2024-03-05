@@ -1,0 +1,33 @@
+{
+  "name": "data",
+  "private": true,
+  "version": "0.1.2",
+  "type": "module",
+  "main": "lib/src/index.js",
+  "files": [
+    "lib"
+  ],
+  "types": "lib/src/index.d.ts",
+  "scripts": {
+    "lint": "eslint src/",
+    "build": "tsc",
+    "test": "vitest --coverage"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.10.0",
+    "@typescript-eslint/parser": "^6.10.0",
+    "@vitest/coverage-v8": "^1.0.4",
+    "core": "workspace:*",
+    "eslint": "^8.53.0",
+    "eslint-config-custom": "workspace:*",
+    "eslint-config-prettier": "^8.10.0",
+    "eslint-plugin-turbo": "^1.10.16",
+    "tsconfig": "workspace:*",
+    "typescript": "^5.2.2",
+    "vitest": "^1.0.4"
+  },
+  "dependencies": {
+    "@slack/web-api": "^6.10.0",
+    "firebase-admin": "^12.0.0"
+  }
+}

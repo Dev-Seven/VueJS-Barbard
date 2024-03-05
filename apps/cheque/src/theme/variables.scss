@@ -1,0 +1,23 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+:root {
+  --font-1: "SVN-Brandon", serif;
+  --font-2: "Cinzel", serif;
+
+  // colors variables
+  --color-black: #000000;
+  --color-white: #fff;
+  --color-red: #ff3d00;
+  --color-orrange: #ff9431;
+  --color-yellow: #ffe607;
+  --color-green-light: #dcf92e;
+  --color-green: #96ff43;
+  --color-beige: #ffdeae;
+  --color-beige-dark: #938064;
+  --color-gold: #736144;
+
+  // tailwindcss variables
+  // --bc: 0 0% 100%;
+}

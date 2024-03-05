@@ -1,0 +1,89 @@
+{
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "hosting": [
+    {
+      "target": "pos",
+      "public": "apps/pos/dist",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    },
+    {
+      "target": "cheque",
+      "public": "apps/cheque/dist",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    },
+    {
+      "target": "web",
+      "public": "apps/web/.output/public",
+      "cleanUrls": true,
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "rewrites": [
+        {
+          "source": "**",
+          "function": "nuxtserver"
+        }
+      ]
+    }
+  ],
+  "emulators": {
+    "singleProjectMode": true,
+    "auth": {
+      "port": 9099
+    },
+    "firestore": {
+      "port": 8069
+    },
+    "hosting": {
+      "host": "localhost",
+      "port": 5050
+    },
+    "ui": {
+      "enabled": true
+    },
+    "database": {
+      "port": 9000
+    },
+    "functions": {
+      "port": 5001
+    }
+  },
+  "functions": [
+    {
+      "predeploy": [
+        "pnpm run build --filter api --force",
+        "DEBUG_ISOLATE_CONFIG=true",
+        "npx isolate"
+      ],
+      "source": "apps/api/isolate",
+      "codebase": "api",
+      "runtime": "nodejs18",
+      "region": "asia-southeast2"
+    },
+    {
+      "source": "apps/web/.output/server",
+      "codebase": "nuxt",
+      "runtime": "nodejs18",
+      "region": "asia-southeast2",
+      "ignore": [
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "node_modules"
+      ]
+    }
+  ]
+}

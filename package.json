@@ -1,0 +1,53 @@
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "clean": "turbo run clean",
+    "lint": "turbo run lint",
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "format": "prettier --write \"**/*.((?(c){j,t}s?(x))|vue)\"",
+    "emulators": "firebase emulators:start",
+    "test": "firebase emulators:exec --only firestore,auth 'npx jest --runInBand'",
+    "test:ci": "firebase emulators:exec --only firestore,auth 'npx jest --ci --runInBand --testPathIgnorePatterns migrations/__tests__'",
+    "cy:open": "npx cypress open",
+    "jest": "jest",
+    "web": "vercel --local-config ./apps/web/vercel.json deploy",
+    "seed": "node ./dbseed.js",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.26.2",
+    "@faker-js/faker": "^8.1.0",
+    "cypress": "^12.11.0",
+    "dotenv-cli": "^7.1.0",
+    "firebase-tools": "^12.8.1",
+    "husky": "^8.0.3",
+    "isolate-package": "^1.5.2",
+    "jest": "^29.5.0",
+    "jest-junit": "^16.0.0",
+    "lint-staged": "^15.1.0",
+    "mrm": "2",
+    "node-jq": "^2.3.5",
+    "prettier": "^3.1.0",
+    "ts-jest": "^29.0.5",
+    "ts-node": "^10.9.1",
+    "tsconfig": "workspace:*",
+    "turbo": "^1.10.13",
+    "typescript": "^5.2.2",
+    "vercel": "^32.5.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "packageManager": "pnpm@8.7.0",
+  "jest-junit": {
+    "outputDirectory": "reports",
+    "outputName": "jest-junit.xml",
+    "ancestorSeparator": " › ",
+    "uniqueOutputName": "false",
+    "suiteNameTemplate": "{filepath}",
+    "classNameTemplate": "{classname}",
+    "titleTemplate": "{title}"
+  }
+}

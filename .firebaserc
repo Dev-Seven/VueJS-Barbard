@@ -1,0 +1,34 @@
+{
+  "projects": {
+    "default": "barbaard-dev"
+  },
+  "targets": {
+    "barbaard-dev": {
+      "hosting": {
+        "pos": [
+          "barbaard-dev"
+        ],
+        "cheque": [
+          "dev-cheque"
+        ],
+        "web": [
+          "barbaard-dev-web"
+        ]
+      }
+    },
+    "barbaard-prod": {
+      "hosting": {
+        "pos": [
+          "barbaard-prod"
+        ],
+        "cheque": [
+          "barbaard-prod-cheque"
+        ],
+        "web": [
+          "barbaard-prod-web"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

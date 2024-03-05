@@ -1,0 +1,15 @@
+{
+  "extends": "tsconfig/base.json",
+  "compilerOptions": {
+    "moduleResolution": "NodeNext",
+    "module": "NodeNext",
+    "outDir": "lib",
+    "declaration": true,
+    "composite": true,
+    "sourceMap": true,
+    "strict": true,
+    "isolatedModules": true
+  },
+  "compileOnSave": true,
+  "include": ["src"]
+}

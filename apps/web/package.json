@@ -1,0 +1,35 @@
+{
+  "name": "web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npx nuxt dev",
+    "build": "npx nuxt build",
+    "generate": "npx nuxt generate",
+    "postinstall": "npx nuxt prepare",
+    "emulators": "firebase emulators:start",
+    "fmt": "prettier --plugin-search-dir . --write ./"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "^1.0.4",
+    "@nuxtjs/tailwindcss": "^6.10.1",
+    "@types/node": "^18.17.5",
+    "nuxt": "^3.8.2",
+    "nuxt-swiper": "^1.2.2"
+  },
+  "dependencies": {
+    "@firebase/app-types": "^0.9.0",
+    "@vueuse/core": "^10.6.1",
+    "@vueuse/nuxt": "^10.6.1",
+    "firebase": "^10.7.0",
+    "firebase-admin": "^11.11.1",
+    "firebase-functions": "^4.5.0",
+    "moment": "^2.29.4",
+    "nuxt-vuefire": "^0.4.1",
+    "sass": "^1.69.5",
+    "swiper": "^11.0.5",
+    "vuefire": "^3.1.18",
+    "vuetify": "^3.4.4"
+  }
+}

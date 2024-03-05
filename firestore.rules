@@ -1,0 +1,93 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /devices/{deviceId} {
+    	allow read: if true;
+    }
+
+    match /admin/{userId} {
+      allow read, write: if isPosAdmin() || isPosStaff();
+    }
+
+    match /agreements/{itemId} {
+      allow read, write: if isPosAdmin() || isPosStaff();
+    }
+
+    match /giftcheques/{itemId} {
+      allow read, write: if isPosAdmin() || isPosStaff();
+    }
+
+    match /locations/{itemId} {
+      allow read: if isPosAdmin() || isPosStaff();
+      allow write: if isPosAdmin() || isPosStaff();
+      match /orders/{document=**} {
+        allow read, write: if isPosStaff() || isPosAdmin();
+      }
+      match /events/{document=**} {
+        allow read, write: if isPosStaff() || isPosAdmin();
+      }
+      match /ledger/{document=**} {
+        allow read, write: if isPosStaff() || isPosAdmin();
+      }
+      match /lockerbox/{document=**} {
+        allow read, write: if isPosStaff() || isPosAdmin();
+      }
+      match /registers/{document=**} {
+        allow read, write: if isPosStaff() || isPosAdmin();
+      }
+      match /salesCategories/{document=**} {
+        allow read, write: if isPosStaff() || isPosAdmin();
+      }
+      match /tables/{document=**} {
+        allow read, write: if isPosStaff() || isPosAdmin();
+      }
+    }
+
+    match /order_failure_subscribers/{itemId} {
+      allow read, write: if isPosAdmin();
+    }
+
+    match /payments/{itemId} {
+      allow read, write: if isPosAdmin() || isPosStaff();
+    }
+
+    match /posItems/{itemId}/{document=**} {
+      allow read: if isPosStaff() || isPosAdmin();
+    }
+
+    match /promotions/{itemId} {
+      allow read, write: if isPosAdmin() || isPosStaff();
+    }
+    
+    match /services/{itemId} {
+      allow read, write: if isPosStaff() || isPosAdmin();
+    }
+
+    match /staff/{itemId} {
+      allow read, write: if isPosAdmin();
+    }
+
+    match /tax/{itemId} {
+      allow read: if isPosStaff() || isPosAdmin();
+    }
+
+    match /upgrades/{itemId} {
+      allow read: if isPosAdmin() || isPosStaff();
+      allow write: if isPosAdmin();
+    }
+
+    match /users/{userId} {
+    	//allow read: if (resource.data.phone == request.auth.token.phone_number) || 
+      //(request.auth.uid == userId) || isPosAdmin() || isPosStaff();
+      allow read: if true;
+      allow write: if (userId == request.auth.uid) || isPosAdmin() || isPosStaff();
+    }
+
+    function isPosAdmin() {
+      return 'pos.admin' in get(/databases/$(database)/documents/admin/$(request.auth.uid)).data.roles; 
+    }
+    function isPosStaff() {
+      return 'pos.staff' in debug(get(/databases/$(database)/documents/admin/$(request.auth.uid)).data.roles); 
+    }
+  }
+}

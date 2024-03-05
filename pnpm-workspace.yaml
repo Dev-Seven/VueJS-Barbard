@@ -1,0 +1,6 @@
+packages:
+  - "apps/**"
+  - "migrations/**"
+  - "packages/**"
+  - "!**/.next/**"
+  - "!**/dist/**"

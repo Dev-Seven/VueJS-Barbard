@@ -1,0 +1,19 @@
+{
+  "name": "pos-macro",
+  "private": true,
+  "version": "0.1.0",
+  "description": "POS Macros",
+  "type": "module",
+  "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "tsconfig": "workspace: *",
+    "lodash": "^4.17.21"
+  }
+}

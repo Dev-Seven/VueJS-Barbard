@@ -1,0 +1,33 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalEnv": [
+    "NODE_ENV",
+    "FIRESTORE_EMULATOR_HOST",
+    "FIREBASE_DATABASE_EMULATOR_HOST",
+    "FIREBASE_AUTH_EMULATOR_HOST",
+    "TZ",
+    "ENV",
+    "VITE_FIREBASE_DATABASE_URL",
+    "VITE_FIREBASE_PROJECT_ID",
+    "GCLOUD_PROJECT"
+  ],
+  "pipeline": {
+    "lint": {},
+    "clean": {
+      "cache": false
+    },
+    "build": {
+      "env": ["VITE_*"],
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", "build/**", "lib/**", ".output/**"]
+    },
+    "test": {
+      "outputs": ["reports/**", "firestore-coverage.html"],
+      "dependsOn": []
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    }
+  }
+}

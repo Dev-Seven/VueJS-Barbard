@@ -1,0 +1,8 @@
+export { Product, ProductTypes, type SalesPerson, ComplimentaryTypes } from './product'
+// export { FnBProduct, type F as FnbProductType } from './fnb-product'
+// export { GentlemanAgreement, type GA as AgreementType } from './agreement'
+// export { GiftCheque, type G as GiftChequeType } from './gift-cheque'
+// export { KingsAgreement, type KA as KingsAgreementType } from './kings-agreement'
+// export { LockerBox, type L as LockerboxType } from './locker-box'
+// export { Service, type S as ServiceType } from './service'
+// export { Upgrade, type U as UpgradeType } from './upgrade'

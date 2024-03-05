@@ -1,0 +1,36 @@
+{
+  "name": "Barbaard Cheque",
+  "short_name": "Barbaard Cheque",
+  "description": "Barbaard managment Cheque app",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "120x120",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/safari-pinned-tab.svg",
+      "color": "#5bbad5"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#ffffff",
+  "theme_color": "#3367D6",
+  "display": "standalone",
+  "scope": "/"
+}

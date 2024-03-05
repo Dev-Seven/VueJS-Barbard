@@ -1,0 +1,167 @@
+name: Deploy Manually
+
+on:
+  workflow_dispatch:
+    inputs:
+      env:
+        required: true
+        description: environment
+        type: choice
+        options:
+          - staging
+          - production
+      app:
+        required: true
+        description: which app to deploy
+        type: choice
+        options:
+          - pos
+          - cheque
+          - web
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.env }}
+    env:
+      VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
+      VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
+      VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
+      VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
+      VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}
+      VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID }}
+      VITE_FIREBASE_DATABASE_URL: ${{ secrets.VITE_FIREBASE_DATABASE_URL }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: ./.github/actions/setup
+
+      - name: Build POS
+        id: build-pos
+        if: "${{ github.event.inputs.app == 'pos' }}"
+        env:
+          VITE_APP_CHECK_KEY: ${{ secrets.VITE_FIREBASE_POS_APPCHECK_TOKEN }}
+          VITE_ALGOLIA_APP_ID: ${{ secrets.POS_ALGOLIA_APP_ID }}
+          VITE_ALGOLIA_APP_KEY: ${{ secrets.POS_ALGOLIA_APP_KEY }}
+          VITE_API_URL: ${{ secrets.POS_API_URL }}
+          VITE_CREATE_GUEST_FN: ${{ secrets.POS_CREATE_GUEST_FN }}
+          VITE_MARKETMAN_PRODUCTS_API: ${{ secrets.POS_MARKETMAN_PRODUCTS_API }}
+          VITE_NHANH_PRODUCTS_API: ${{ secrets.POS_NHANH_PRODUCTS_API }}
+          VITE_SALES_PUSH_MARKETMAN: ${{ secrets.POS_SALES_PUSH_MARKETMAN }}
+          VITE_SALES_PUSH_NHANH: ${{ secrets.POS_SALES_PUSH_NHANH }}
+          VITE_COMMIT_SHA: ${{ github.sha }}
+          VITE_FIREBASE_MEASUREMENT_ID: ${{ secrets.POS_FIREBASE_MEASUREMENT_ID }}
+        run: |
+          pnpm run build --filter pos
+
+      - name: Build Web
+        id: build-web
+        if: "${{ github.event.inputs.app == 'web' }}"
+        env:
+          VITE_FIREBASE_APPCHECK_TOKEN: ${{ secrets.VITE_FIREBASE_WEB_APPCHECK_TOKEN }}
+          VITE_FIREBASE_MEASUREMENT_ID: ${{ secrets.WEB_FIREBASE_MEASUREMENT_ID }}
+
+        run: |
+          echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT_BARBAARD_DEV }}" > apps/web/service-account.json
+          pnpm run build --filter web
+
+      - name: Build Cheque
+        id: build-cheque
+        if: "${{ github.event.inputs.app == 'cheque' }}"
+        env:
+          VITE_FIREBASE_MEASUREMENT_ID: ${{ secrets.CHEQUE_FIREBASE_MEASUREMENT_ID }}
+          VITE_FIREBASE_APPCHECK_TOKEN: ${{ secrets.VITE_FIREBASE_CHEQUE_APPCHECK_TOKEN }}
+        run: |
+          pnpm run build --filter cheque
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        if: steps.build-cheque.outcome == 'success' || steps.build-pos.outcome == 'success' || steps.build-web.outcome == 'success'
+        with:
+          name: build-artifact
+          path: |
+            apps/pos/dist
+            apps/cheque/dist
+            apps/web/.output
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: ./.github/actions/setup
+
+      - run: pnpm run test:ci
+
+      - uses: dorny/test-reporter@v1.6.0
+        if: failure()
+        with:
+          name: Unit tests results
+          path: "reports/*.xml"
+          reporter: jest-junit
+
+  deploy:
+    needs: [build, test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: build-artifact
+          path: apps/
+
+      - id: release
+        run: |
+          echo "version=$(cat apps/${{ inputs.app }}/package.json | jq -r '.version')" >> $GITHUB_OUTPUT
+
+      - id: firebase_deploy
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: ${{ inputs.env == 'production' && secrets.FIREBASE_SERVICE_ACCOUNT_BARBAARD_PROD || secrets.FIREBASE_SERVICE_ACCOUNT_BARBAARD_DEV }}
+          projectId: ${{ inputs.env == 'production' && 'barbaard-prod' || 'barbaard-dev' }}
+          channelId: live
+          target: ${{ inputs.app }}
+
+      - name: Post to a Slack channel
+        uses: slackapi/slack-github-action@v1.24.0
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        with:
+          channel-id: "C05KWP6E7EU"
+          payload: |
+            {
+              "text": "Deploy to 💡 ${{ inputs.env }} ${{ inputs.app }}:\n*${{ steps.release.outputs.version }}*",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "${{ inputs.env }} ${{ inputs.app }}:\n*${{ steps.release.outputs.version }}*"
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Author:*\n${{ github.actor }}"
+                    }
+                  ]
+                },
+                {
+                  "type": "divider"
+                },
+                {
+                  "type": "context",
+                  "elements": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "⏳ - preivew channel 💡 - live channel 🚧 - STAGING 🚀 - PROD"
+                    }
+                  ]
+                }
+              ]
+            }

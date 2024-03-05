@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js"
+      integrity="sha256-VeNaFBVDhoX3H+gJ37DpT/nTuZTdjYro9yBruHjVmoQ="
+      crossorigin="anonymous"
+    ></script>
+    <script src="../dist/index.js"></script>
+    <script>
+      const order = {
+        _id: "",
+        active: false,
+        amountOfGuest: 1,
+        closedAt: "",
+        createdAt: {
+          nanoseconds: 431000000,
+          seconds: 1674885107,
+        },
+        customBill: "Mr. Cong (Mr. Kiss)",
+        department: "barbershop",
+        discount: {
+          amount: 0,
+          percentage: 0,
+          type: "percentage",
+        },
+        eventItem: {
+          _id: "F0idTPKjVrULkumtufoc",
+          booklyId: 47984,
+          connectaId: "6c9bc626-2bf1-46ce-9d76-618934ea211a",
+          createdAt: {
+            nanoseconds: 0,
+            seconds: 1674881045,
+          },
+          createdFrom: "backend",
+          daysSinceLastAppointment: 42,
+          endDate: {
+            nanoseconds: 0,
+            seconds: 1674884700,
+          },
+          firstVisit: true,
+          internalNote: "",
+          memberGroup: "Club Member",
+          notifyUser: true,
+          reminderDate: {
+            nanoseconds: 0,
+            seconds: 1674874800,
+          },
+          serviceName: "Express Haircut - Senior Barber",
+          services: [
+            {
+              id: "GgEDnlWd5WFeMSJ9AJbO",
+              name: "Express Haircut - Senior Barber",
+              price: 436363.63636363635,
+              staff: "Mr. Cong (Mr. Kiss)",
+              staffId: "TpHilbTopZUqgR7rt7m0",
+            },
+          ],
+          staffAny: false,
+          staffName: "Mr. Cong (Mr. Kiss)",
+          startDate: {
+            nanoseconds: 0,
+            seconds: 1674882000,
+          },
+          status: "approved",
+          type: "appointment",
+          updatedAt: {
+            nanoseconds: 0,
+            seconds: 1674881045,
+          },
+          userId: "jvhDnTYmc4OVfrGGEdDWzDQMHIu1",
+          userName: "Arne Paul Wiemann",
+          userTags: ["barbershop", "generation 1", "app", "new"],
+        },
+        generalSalesPerson: {
+          profile: "",
+          staffName: "",
+        },
+        isCustomBill: true,
+        memberGroup: "Club Member",
+        openRegisterEntryId: "",
+        orderId: "HN-230000002",
+        orderNote: "",
+        orderNumber: "",
+        paid: false,
+        parkedSale: true,
+        payment: {
+          paymentStatus: false,
+          receivedCash: 0,
+        },
+        products: [
+          {
+            VAT: {
+              amount: 10,
+              label: "10%",
+            },
+            category: "service",
+            complimentaries: {
+              drink: "drink-complimentary",
+              food: "snack-complimentary",
+            },
+            component: "ItemCard",
+            discount: 0,
+            itemNote: "",
+            manualPrice: 0,
+            name: "Express Haircut - Senior Barber",
+            originalPrice: 436000,
+            price: 436000,
+            quantity: 1,
+            salesPerson: {
+              staffId: "k0ePtOTAfTo9DXDwRWoa",
+              staffName: "Minh Nguyen ",
+            },
+            serviceCharge: false,
+          },
+        ],
+        promotionDiscount: 0,
+        registerId: "Wlub7h2nhr3EnXoQMDVr",
+        reportingTotal: 480000,
+        salePromotion: {
+          amount: 0,
+          manual: false,
+          percentage: 0,
+          type: "percentage",
+        },
+        salesCategory: "barbershop",
+        staffId: "k0ePtOTAfTo9DXDwRWoa",
+        staffName: "Minh Nguyen ",
+        tableId: "",
+        tableName: "",
+        totalOrderValue: 0,
+        totalReportingValue: 0,
+        totalServiceCharge: 0,
+        totalWithoutVat: 436000,
+        updatedAt: {
+          nanoseconds: 431000000,
+          seconds: 1674885107,
+        },
+        userEmail: "arne.wiemann@web.de",
+        userId: "jvhDnTYmc4OVfrGGEdDWzDQMHIu1",
+        userName: "Arne Paul Wiemann",
+        userPhone: "0084936189349",
+        userTags: ["barbershop", "generation 1", "app", "new"],
+      };
+
+      console.log(orderUtil.sanitize(order));
+    </script>
+  </body>
+</html>

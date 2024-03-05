@@ -1,0 +1,95 @@
+name: Core Converage Test
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - staging
+    paths:
+      - "packages/core/**"
+
+jobs:
+  test:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        branch:
+          - ${{ github.head_ref }}
+          - "main"
+
+    outputs:
+      id: ${{ steps.report.outputs.id }}
+
+    permissions:
+      # Required to checkout the code
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ matrix.branch }}
+
+      - uses: ./.github/actions/setup
+
+      - name: "Build core"
+        run: |
+          pnpm build --filter=core
+
+      - name: "Test Core"
+        run: |
+          pnpm test --filter=core
+
+      - name: "Get report ID"
+        id: report
+        run: |
+          echo "id=${{ matrix.branch }}" | sed -E "s/[\":<>|\*\?\/\\/\r/\n]/-/g" >> $GITHUB_OUTPUT
+
+      - name: "Upload Coverage"
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-${{ steps.report.outputs.id }}
+          path: packages/core/coverage
+
+  report-coverage:
+    needs: test
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: "Download Coverage Artifacts"
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-${{ needs.test.outputs.id }}
+          path: ./coverage
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: coverage-main
+          path: ./coverage-main
+
+      - name: "Define thresholds config"
+        run: |
+          touch vitest.config.ts
+          echo "import { defineConfig } from 'vite';
+            export default defineConfig({
+              test: {
+                coverage: {
+                  thresholds: {
+                    lines: 100,
+                    branches: 100,
+                    functions: 100,
+                    statements: 100
+                  }
+                }
+              }
+            });" >> vitest.config.ts
+
+      - name: "Report Coverage"
+        uses: davelosert/vitest-coverage-report-action@v2
+        with:
+          json-summary-compare-path: coverage-main/coverage-summary.json

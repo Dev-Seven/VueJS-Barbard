@@ -1,0 +1,93 @@
+@import "./variables.scss";
+@import "./check-page.scss";
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
+
+@font-face {
+  font-family: "SVN-Brandon";
+  src: url("../assets/fonts/SVN-BrandonTextMedium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cinzel";
+  src: url("../assets/fonts/Cinzel-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+* {
+  outline: none;
+  font-weight: normal;
+  font-style: normal;
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  line-height: 1.2;
+  // font: 15px/1.2 $font1;
+}
+
+img {
+  border-style: none;
+  vertical-align: top;
+  image-rendering: crisp-edges;
+}
+
+@mixin dark_bg {
+    background: radial-gradient(
+    96.31% 96.31% at 50% 50%,
+    #2a2a2a 0%,
+    #000000 100%
+  );
+}
+
+@mixin light_bg {
+  background: white;
+}
+
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  // @include light_bg;
+}
+
+[class^=border-]{
+	background: transparent
+}
+
+@media (prefers-color-scheme: dark) {
+  #app {
+    @include dark_bg;
+  }
+  }
+
+[data-theme="light"] {
+  #app {
+    @include light_bg;
+  }
+ 
+}
+
+[data-theme="dark"] {
+  #app {
+    @include dark_bg;
+  }
+
+}

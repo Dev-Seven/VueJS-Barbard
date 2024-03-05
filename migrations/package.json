@@ -1,0 +1,28 @@
+{
+  "name": "migrations",
+  "version": "0.0.0",
+  "description": "Storing migration for historic purposes",
+  "main": "index.ts",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "firebase-admin": "^11.5.0"
+  },
+  "dependencies": {
+    "@barbaard/types": "*",
+    "@firebase/rules-unit-testing": "^3.0.1",
+    "@types/deep-equal": "^1.0.1",
+    "@types/jest": "^29.4.3",
+    "commander": "^10.0.0",
+    "csv-parse": "^5.3.6",
+    "date-fns": "^2.29.3",
+    "jest": "^29.5.0",
+    "knex": "^2.4.2",
+    "libphonenumber-js": "^1.10.21",
+    "mysql2": "^3.2.0",
+    "ts-jest": "^29.0.5"
+  },
+  "scripts": {
+    "test-local": "FIRESTORE_PROJECT_ID=test FIRESTORE_EMULATOR_HOST=localhost:8080 jest"
+  }
+}
